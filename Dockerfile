@@ -1,3 +1,4 @@
+cat > Dockerfile << 'EOF'
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -13,15 +14,10 @@ RUN mkdir -p /app/logs
 
 RUN echo "0 8 * * 1-5 cd /app && python3 aceite_outreach.py >> /proc/1/fd/1 2>&1" | crontab -
 
-CMD ["cron", "-f"]
-```
+# Mantiene el contenedor vivo con cron en primer plano
+CMD ["cron", "-f", "-l", "2"]
+EOF
 
----
-
-**3. Crea el .gitignore** para que el .env no se suba
-
-Crea otro archivo llamado `".gitignore"` (también entre comillas al guardar):
-```
-.env
-logs/
-__pycache__/
+git add Dockerfile
+git commit -m "Fix cron foreground"
+git push
