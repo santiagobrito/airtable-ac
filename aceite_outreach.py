@@ -191,7 +191,7 @@ def _h():
 def get_registros():
     url     = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_ID}"
     records = []
-    params  = {"pageSize": 100}
+    params  = {"pageSize": 100, "returnFieldsByFieldId": "true"}
     while True:
         r = requests.get(url, headers=_h(), params=params)
         r.raise_for_status()
